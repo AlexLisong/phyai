@@ -54,9 +54,5 @@ def upload_file():
 
 
 if __name__ == '__main__':
-<<<<<<< HEAD
     test()
-    # app.run(debug=True)
-=======
-    app.run(host='0.0.0.0')
->>>>>>> 55d585f19739d8a7fedafd2c6ac2ec8f388f4335
+    # app.run(host='0.0.0.0')
