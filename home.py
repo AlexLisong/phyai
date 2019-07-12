@@ -10,30 +10,20 @@ from werkzeug import secure_filename
 app = Flask(__name__)
 CORS(app)
 
-def test():
+def get_category(filename):
   defaults.device = torch.device('cpu')
-  img = open_image(path/'static/lotus_root.png')
+  img = open_image('static/' + filename)
 # img
 
-  learn = load_learner(path/'data/export.pkl')  
+  learn = load_learner('data')  
 
   pred_class, pred_idx, outputs = learn.predict(img)
-  pred_class
+  return pred_class
 
 @app.route("/")
 def home():
   import json
   a = {'name':'Sarah', 'age': 24, 'isEmployed': True }
-  defaults.device = torch.device('cpu')
-  img = open_image(path/'static/home-mid.jpg')
-# img
-
-
-  pred_class, pred_idx, outputs = learn.predict(img)
-  pred_class
-
-  learn = load_learner(path)  
-  # a python dictionary
   return jsonify(a)
 
 @app.route('/upload', methods = ['GET', 'POST'])
@@ -44,9 +34,12 @@ def upload_file():
 
    if request.method == 'POST':
       f = request.files['file']
-      f.save(os.path.join('static', secure_filename(f.filename)))
+      name = secure_filename(f.filename)
+      f.save(os.path.join('static', name))
       import json
-      a = {'name':f.filename }
+      category = get_category(name)
+      a = {'category': str(category)}
+      print (a)
       data = jsonify(a)
       data.headers.add('Access-Control-Allow-Origin', '*')
       return data
@@ -54,5 +47,5 @@ def upload_file():
 
 
 if __name__ == '__main__':
-    test()
-    # app.run(host='0.0.0.0')
+    # print(get_category('lotus_root.png'))
+    app.run(host='0.0.0.0',port=5001)
