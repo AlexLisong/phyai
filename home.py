@@ -22,9 +22,10 @@ def get_category(filename):
 
 @app.route("/")
 def home():
-  import json
-  a = {'name':'Sarah', 'age': 24, 'isEmployed': True }
-  return jsonify(a)
+#   import json
+#   a = {'name':'Sarah', 'age': 24, 'isEmployed': True }
+#   return jsonify(a)
+    return render_template('file.html')
 
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload_file():
