@@ -26,6 +26,8 @@
 // Attach a submit handler to the form
 $( "#searchForm" ).submit(function( event ) {
 
+	$( "#result" ).empty().append( "I'm reading the image..." );
+
   // Stop form from submitting normally
   event.preventDefault();
  
@@ -44,7 +46,7 @@ $( "#searchForm" ).submit(function( event ) {
         processData : false,
         type        : 'POST',
         success     : function(data){
-					$( "#result" ).empty().append( data.category );
+					$( "#result" ).empty().append( "aha, it's " + data.category );
         }
     });
 
