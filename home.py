@@ -48,22 +48,23 @@ def upload_base64_file():
        print("No valid request body, json missing!")
        return jsonify({'error': 'No valid request body, json missing!'})
     else:
-
        img_data = data['img']
 
-       convert_and_save(img_data)
+       name = convert_and_save(img_data)
+       category = get_category(name)
+
+       a = {'category': str(category), 'desc': '123'}
+       print (a)
+       data = jsonify(a)
+       data.headers.add('Access-Control-Allow-Origin', '*')
+       return data
 
 def convert_and_save(b64_string):
     imgdata = base64.b64decode(b64_string)
     name = secure_filename("imageToSave.jpg")
-    with open(name, 'wb') as f:
+    with open(os.path.join('static',name), 'wb') as f:
         f.write(imgdata)
-    category = get_category(name)
-    a = {'category': str(category), 'desc': '123'}
-    print (a)
-    data = jsonify(a)
-    data.headers.add('Access-Control-Allow-Origin', '*')
-    return data
+    return name
 
 
 if __name__ == '__main__':
