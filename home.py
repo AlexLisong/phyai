@@ -10,6 +10,8 @@ import json
 
 from werkzeug import secure_filename
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+
 CORS(app)
 
 def get_category(filename):
