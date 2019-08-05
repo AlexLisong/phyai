@@ -23,6 +23,15 @@ def get_category(filename):
   pred_class, pred_idx, outputs = learn.predict(img)
   return pred_class
 
+def get_dog_category(filename):
+  defaults.device = torch.device('cpu')
+  img = open_image('static/' + filename)
+
+  learn = load_learner('dog_data')
+
+  pred_class, pred_idx, outputs = learn.predict(img)
+  return pred_class
+
 @app.route("/")
 def home():
     return render_template('file.html')
@@ -40,6 +49,26 @@ def upload_file():
       data = jsonify(a)
       data.headers.add('Access-Control-Allow-Origin', '*')
       return data
+
+@app.route('/upload_dog_b64', methods=['POST'])
+def upload_base64_file():
+
+    data = request.get_json()
+
+    if data is None:
+       print("No valid request body, json missing!")
+       return jsonify({'error': 'No valid request body, json missing!'})
+    else:
+       img_data = data['img']
+
+       name = convert_and_save(img_data)
+       category = get_dog_category(name)
+
+       a = {'category': str(category), 'desc': '123'}
+       print (a)
+       data = jsonify(a)
+       data.headers.add('Access-Control-Allow-Origin', '*')
+       return data
 
 @app.route('/upload_b64', methods=['POST'])
 def upload_base64_file():
