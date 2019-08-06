@@ -51,7 +51,7 @@ def upload_file():
       return data
 
 @app.route('/upload_dog_b64', methods=['POST'])
-def upload_base64_file():
+def upload_dog_base64_file():
 
     data = request.get_json()
 
@@ -92,7 +92,9 @@ def upload_base64_file():
 
 def convert_and_save(b64_string):
     imgdata = base64.b64decode(b64_string)
-    name = secure_filename("imageToSave.jpg")
+    import time
+    timestr = time.strftime("%Y%m%d-%H%M%S")
+    name = secure_filename(timestr + ".jpg")
     with open(os.path.join('static',name), 'wb') as f:
         f.write(imgdata)
     return name
